@@ -3,9 +3,9 @@
 namespace Sepehr\BehatLaravelJs;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as BaseServideProvider;
 
-class ServiceProvider extends ServiceProvider
+class ServiceProvider extends BaseServideProvider
 {
     /**
      * Register behat authentication routes.
