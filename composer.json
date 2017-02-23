@@ -1,0 +1,21 @@
+{
+    "name": "sepehr/behat-laravel-js",
+    "description": "Testing javascript apps with Laravel and Behat.",
+    "keywords": ["laravel", "behat", "javascript", "bdd", "selenium"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sepehr Lajevardi",
+            "email": "lajevardi@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sepehr\\BehatLaravelJs\\": "src"
+        }
+    },
+    "require": {
+        "laracasts/behat-laravel-extension": "^1.0"
+    }
+}
