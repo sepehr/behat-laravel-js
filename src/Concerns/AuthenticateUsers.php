@@ -18,7 +18,7 @@ trait AuthenticateUsers
     {
         $userId = method_exists($userId, 'getKey') ? $userId->getKey() : $userId;
 
-        $this->visitPath(rtrim('/_behat/login/'.$userId.'/'.$guard, '/'));
+        $this->visitPath(rtrim("/_behat/login/$userId/$guard", '/'));
 
         return $this;
     }
@@ -32,7 +32,7 @@ trait AuthenticateUsers
      */
     public function logout($guard = null)
     {
-        $this->visitPath(rtrim('/_behat/logout/'.$guard, '/'));
+        $this->visitPath(rtrim("/_behat/logout/$guard", '/'));
 
         return $this;
     }
@@ -46,7 +46,7 @@ trait AuthenticateUsers
      */
     protected function currentUserInfo($guard = null)
     {
-        $response = $this->visitWithResponse("/_behat/user/{$guard}");
+        $response = $this->visitWithResponse("/_behat/user/$guard");
 
         return json_decode(strip_tags($response), true);
     }
@@ -75,7 +75,8 @@ trait AuthenticateUsers
     public function assertGuest($guard = null)
     {
         PHPUnit::assertEmpty(
-            $this->currentUserInfo($guard), 'The user is unexpectedly authenticated.'
+            $this->currentUserInfo($guard),
+            'The user is unexpectedly authenticated.'
         );
 
         return $this;
@@ -92,12 +93,13 @@ trait AuthenticateUsers
     public function assertAuthenticatedAs($user, $guard = null)
     {
         $expected = [
-            'id' => $user->getAuthIdentifier(),
             'className' => get_class($user),
+            'id'        => $user->getAuthIdentifier(),
         ];
 
         PHPUnit::assertSame(
-            $expected, $this->currentUserInfo($guard),
+            $expected,
+            $this->currentUserInfo($guard),
             'The currently authenticated user is not who was expected.'
         );
 
