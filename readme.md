@@ -1,8 +1,8 @@
 # Javascript Testing with Behat and Laravel
 This is a companion package to [Behat's Laravel Extension](https://github.com/laracasts/behat-laravel-extension/issues/8) 
  that provides utilities to work around some issues and limitations when testing Javascript applications using browser 
- emulators, like [Selenium](https://github.com/minkphp/MinkSelenium2Driver) or 
- [Zombie](https://github.com/minkphp/MinkZombieDriver). 
+ emulators, like [Selenium](https://github.com/minkphp/MinkSelenium2Driver), 
+ [PhatomJS](https://github.com/jcalderonzumba/MinkPhantomJSDriver) or [Zombie](https://github.com/minkphp/MinkZombieDriver). 
 
 The workarounds used in this package are heavily inspired by [Laravel Dusk](https://github.com/laravel/dusk) code. Read 
  [this post](https://github.com/laracasts/behat-laravel-extension/issues/8#issuecomment-282050804) if you wish to have 
@@ -32,8 +32,8 @@ class FeatureContext extends MinkContext implements Context
 ```
 
 ### Environment
-> **To alleviate this issue, you need to use the `\Sepehr\BehatLaravelJs\Concerns\PreserveBehatEnvironment` trait in your
-`FeatureContext` class.**
+> To alleviate this issue, you need to use the `\Sepehr\BehatLaravelJs\Concerns\PreserveBehatEnvironment` trait in your
+`FeatureContext` class.
 
 Consider this example: Your testing environment is set to use SQLite as the database while your local/production 
  environment use MySQL. When you run a `@javascript` Behat scenario, a browser emulator dispatches a request
@@ -41,8 +41,8 @@ Consider this example: Your testing environment is set to use SQLite as the data
  file. An instance operating in a different environment: different databases, cache drivers, queues, etc. 
 
 ### Database Transactions
-> **To alleviate this one, you need to use `Laracasts\Behat\Context\MigrateRefresh` trait in your
-`FeatureContext` class instead of using `DatabaseTransactions` and `Migrator` traits.**
+> To alleviate this one, you need to use `Laracasts\Behat\Context\MigrateRefresh` trait in your
+`FeatureContext` class instead of using `DatabaseTransactions` and `Migrator` traits.
 
 The very popular `DatabaseTransactions` trait and its 
  [BLE counterpart](https://github.com/laracasts/Behat-Laravel-Extension/blob/master/src/Context/DatabaseTransactions.php), 
@@ -50,35 +50,34 @@ The very popular `DatabaseTransactions` trait and its
  scenario, they will rollback it in order to keep the database state intact.
 
 In middle of the process, when a browser emulator dispatches the request to another instance of Laravel, the transaction
- won't be commited and this you will encounter unexpected results.
+ won't be commited and thus you will encounter unexpected results.
 
 Consider a scenario, when you first insert a few test users into the database in the testing instance and in the next    
  step, you request a page (to the other instance) to see if their data exist on a page. To your surprise, the data you're
  looking for won't be available.
 
+Instead, in order to maintain a clean database state, use the `MigrateRefresh` trait to refresh the database before each 
+ scenario.
+
 ### Authentication
-> **To alleviate this one, you should be using the `\Sepehr\BehatLaravelJs\Concerns\AuthenticateUsers` trait in your
-`FeatureContext` class.** It will provide you with helper authentication methods to login, logout and get the current
+> To alleviate this one, you should be using the `\Sepehr\BehatLaravelJs\Concerns\AuthenticateUsers` trait in your
+`FeatureContext` class. It will provide you with helper authentication methods to login, logout and get the current
 user data.
 
 Authentication is another problem. In the testing environment you log a user into the system, then you tell Behat to 
- fire a Selenium session and check a protected page. As you might already know, the user won't be logged-in. When you use 
- `Auth::login($userObject)` to log a user in. It logs a user into the current instance, not the one that browser hits.
+ fire a Selenium session and check a protected page. As you might already know, the user won't be logged-in. The testing
+ browser has no authentication cookie to send to the other Laravel instance. 
 
 Available methods are:  
 
-- Login as a user:  
-`loginAs($user|$userId, $guard|null)`
-- Logout:   
-`logout($guard|null)`
-- Get current user's data:  
-`currentUserInfo($guard|null)`
-- Assert that the user is authenticated:  
-`assertAuthenticated($guard|null)`
-- Assert that the user is authenticated AS:  
-`assertAuthenticatedAs($user, $guard|null)`
-- Assert that the user is NOT authenticated:  
-`assertGuest($guard|null)`
+| Description                               | Signature                                    |
+| ----------------------------------------- | -------------------------------------------- |
+| Login as a user                           |  `loginAs($user|$userId, $guard|null)`       |
+| Logout                                    |  `logout($guard|null)`                       |
+| Get current user's data                   |  `currentUserInfo($guard|null)`              |
+| Assert that the user is authenticated     |  `assertAuthenticated($guard|null)`          |
+| Assert that the user is authenticated AS  |  `assertAuthenticatedAs($user, $guard|null)` |
+| Assert that the user is NOT authenticated |  `assertGuest($guard|null)`                  |
 
 Just as Dusk.
 
@@ -89,9 +88,9 @@ Install the package using composer:
 composer install sepehr/behat-laravel-js
 ```
 
-Then, in your `AppServiceProvider::boot()`, register the package service provider for testing environments. Please note that
-it'd be a **SECURITY RISK** if you enable this in your production environment. See the package service provider to find
-out why.
+Then, in your `AppServiceProvider::boot()`, register the package service provider for testing environments. Please note 
+ that it'd be a **SECURITY RISK** if you enable this in your production environment. See the package service provider to find
+ out why.
 
 ```php
 <?php
