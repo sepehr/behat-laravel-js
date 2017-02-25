@@ -10,27 +10,26 @@ class AuthController
      * Retrieve the authenticated user identifier and class name.
      *
      * @param  string|null  $guard
+     *
      * @return array
      */
     public function user($guard = null)
     {
         $user = Auth::guard($guard)->user();
 
-        if (! $user) {
-            return [];
-        }
-
-        return [
-            'id' => $user->getAuthIdentifier(),
+        return $user ? [
             'className' => get_class($user),
-        ];
+            'id'        => $user->getAuthIdentifier(),
+        ] : [];
     }
 
     /**
      * Login using the given user ID / email.
      *
-     * @param  string  $userId
-     * @param  string  $guard
+     * @param  string       $userId
+     * @param  string|null  $guard
+     *
+     * @return void
      */
     public function login($userId, $guard = null)
     {
@@ -48,7 +47,9 @@ class AuthController
     /**
      * Log the user out of the application.
      *
-     * @param  string  $guard
+     * @param  string|null  $guard
+     *
+     * @return void
      */
     public function logout($guard = null)
     {
@@ -64,8 +65,8 @@ class AuthController
      */
     protected function modelForGuard($guard)
     {
-        $provider = config("auth.guards.{$guard}.provider");
+        $provider = config("auth.guards.$guard.provider");
 
-        return config("auth.providers.{$provider}.model");
+        return config("auth.providers.$provider.model");
     }
 }

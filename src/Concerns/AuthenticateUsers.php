@@ -10,7 +10,7 @@ trait AuthenticateUsers
      * Log into the application using a given user ID or email.
      *
      * @param  object|string  $userId
-     * @param  string         $guard
+     * @param  string|null    $guard
      *
      * @return $this
      */
@@ -26,7 +26,7 @@ trait AuthenticateUsers
     /**
      * Log out of the application.
      *
-     * @param  string  $guard
+     * @param  string|null  $guard
      *
      * @return $this
      */
@@ -109,8 +109,8 @@ trait AuthenticateUsers
     /**
      * Visit theh page and return the response.
      *
-     * @param  string  $path
-     * @param  string  $sessionName
+     * @param  string       $path
+     * @param  string|null  $sessionName
      *
      * @return string
      */
