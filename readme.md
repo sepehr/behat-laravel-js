@@ -2,7 +2,7 @@
 This is a companion package to [Behat's Laravel Extension](https://github.com/laracasts/behat-laravel-extension/issues/8) 
  that provides utilities to work around some issues and limitations when testing Javascript applications using browser 
  emulators, like [Selenium](https://github.com/minkphp/MinkSelenium2Driver), 
- [PhatomJS](https://github.com/jcalderonzumba/MinkPhantomJSDriver) or [Zombie](https://github.com/minkphp/MinkZombieDriver). 
+ [PhantomJS](https://github.com/jcalderonzumba/MinkPhantomJSDriver) or [Zombie](https://github.com/minkphp/MinkZombieDriver). 
 
 The workarounds used in this package are heavily inspired by [Laravel Dusk](https://github.com/laravel/dusk) code. Read 
  [this post](https://github.com/laracasts/behat-laravel-extension/issues/8#issuecomment-282050804) if you wish to have 
