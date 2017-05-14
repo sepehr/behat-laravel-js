@@ -72,12 +72,12 @@ Available methods are:
 
 | Description                               | Signature                                    |
 | ----------------------------------------- | -------------------------------------------- |
-| Login as a user                           |  `loginAs($user|$userId, $guard|null)`       |
-| Logout                                    |  `logout($guard|null)`                       |
-| Get current user's data                   |  `currentUserInfo($guard|null)`              |
-| Assert that the user is authenticated     |  `assertAuthenticated($guard|null)`          |
-| Assert that the user is authenticated AS  |  `assertAuthenticatedAs($user, $guard|null)` |
-| Assert that the user is NOT authenticated |  `assertGuest($guard|null)`                  |
+| Login as a user                           |  `loginAs($user\|$userId, $guard\|null)`       |
+| Logout                                    |  `logout($guard\|null)`                       |
+| Get current user's data                   |  `currentUserInfo($guard\|null)`              |
+| Assert that the user is authenticated     |  `assertAuthenticated($guard\|null)`          |
+| Assert that the user is authenticated AS  |  `assertAuthenticatedAs($user, $guard\|null)` |
+| Assert that the user is NOT authenticated |  `assertGuest($guard\|null)`                  |
 
 Just as Dusk.
 
